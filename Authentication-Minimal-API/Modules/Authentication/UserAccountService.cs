@@ -101,8 +101,6 @@ public class UserAccountService : ApplicationServiceBase, IUserAccountService
 
     private static void ValidatePasswordRequirements(string password)
     {
-        // TODO:
-        // throw new ArgumentException("Password requirements not met");
     }
 
     private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
