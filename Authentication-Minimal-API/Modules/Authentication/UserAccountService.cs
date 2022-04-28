@@ -13,14 +13,14 @@ public class UserAccountService : ApplicationServiceBase, IUserAccountService
 
     public UserAccountService(IConfiguration configuration, IUserRepository userRepository) : base(configuration)
     {
-        Parameter.NullCheck(userRepository, nameof(IUserRepository));
+        ArgumentNullException.ThrowIfNull(userRepository, nameof(IUserRepository));
 
         _userRepository = userRepository;
     }
 
     public async Task ChangePassword(ChangePasswordRequest changePasswordRequest, CancellationToken cancellationToken)
     {
-        Parameter.NullCheck(changePasswordRequest, nameof(ChangePasswordRequest));
+        ArgumentNullException.ThrowIfNull(changePasswordRequest, nameof(ChangePasswordRequest));
         ValidatePasswordRequirements(changePasswordRequest.NewPassword);
 
         var user = await _userRepository.GetByUsername(changePasswordRequest.Username, cancellationToken);
@@ -34,9 +34,9 @@ public class UserAccountService : ApplicationServiceBase, IUserAccountService
         await _userRepository.UpdatePassword(user, passwordHash, passwordSalt, cancellationToken);
     }
 
-    public async Task<string?> Login(LoginUserRequest loginUserRequest, CancellationToken cancellationToken)
+    public async Task<string> Login(LoginUserRequest loginUserRequest, CancellationToken cancellationToken)
     {
-        Parameter.NullCheck(loginUserRequest, nameof(LoginUserRequest));
+        ArgumentNullException.ThrowIfNull(loginUserRequest, nameof(LoginUserRequest));
 
         var user = await _userRepository.GetByUsername(loginUserRequest.Username, cancellationToken);
 
@@ -48,7 +48,7 @@ public class UserAccountService : ApplicationServiceBase, IUserAccountService
 
     public async Task Register(RegisterUserRequest registerUserRequest, CancellationToken cancellationToken)
     {
-        Parameter.NullCheck(registerUserRequest, nameof(RegisterUserRequest));
+        ArgumentNullException.ThrowIfNull(registerUserRequest, nameof(RegisterUserRequest));
         ValidatePasswordRequirements(registerUserRequest.Password);
 
         CreatePasswordHash(registerUserRequest.Password, out var passwordHash, out var passwordSalt);
@@ -67,7 +67,7 @@ public class UserAccountService : ApplicationServiceBase, IUserAccountService
 
     private string CreateToken(User user)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppSettings!.AuthSecurityKey!));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppSettings.AuthSecurityKey!));
 
         var claims = new List<Claim>
         {
@@ -82,7 +82,7 @@ public class UserAccountService : ApplicationServiceBase, IUserAccountService
 
         var token = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.Now.AddHours(AppSettings!.AuthExpirationHours!.Value),
+            expires: DateTime.Now.AddHours(AppSettings.AuthExpirationHours),
             signingCredentials: credentials);
 
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);

@@ -4,10 +4,10 @@ public abstract class ApplicationServiceBase
 {
     protected ApplicationServiceBase(IConfiguration configuration)
     {
-        Parameter.NullCheck(configuration, nameof(configuration));
+        ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
 
         AppSettings = AppSettings.Initialize(configuration);
     }
 
-    protected AppSettings? AppSettings { get; }
+    protected AppSettings AppSettings { get; }
 }
