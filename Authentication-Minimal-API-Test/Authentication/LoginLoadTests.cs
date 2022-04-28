@@ -17,6 +17,7 @@ public class LoginLoadTests
 
     [Test]
     [Category("Load")]
+    [Category("Authentication")]
     public void Login_Load_Test_Level_1()
     {
         var step = Step.Create("login",
@@ -37,6 +38,8 @@ public class LoginLoadTests
     }
 
     [Test]
+    [Category("Load")]
+    [Category("Authentication")]
     public void Login_Load_Test_Level_2()
     {
         var step = Step.Create("login",

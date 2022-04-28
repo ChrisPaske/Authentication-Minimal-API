@@ -29,7 +29,7 @@ public class UserRepository : RepositoryBase, IUserRepository
         return user;
     }
 
-    public async Task<User?> GetByUsername(string username, CancellationToken cancellationToken)
+    public async Task<User> GetByUsername(string username, CancellationToken cancellationToken)
     {
         using IDbConnection connection = new NpgsqlConnection(AppSettings!.DbConnectionString);
 
