@@ -1,7 +1,7 @@
 # Authentication-Minimal-API
 JWT Authentication using .NET Core 6 Minimal API with PostgreSQL.  
 
-Demonstrates an organizational approach for web api projects that groups implementation by apis using modules instead of the traditional approach of slicing the project by technical concerns.  
+Demonstrates a vertical slice architecture approach for web api projects that groups implementation by apis using modules instead of the traditional approach of slicing the project by technical concerns.  
 
 ### Structure Overview
 **Core** - Classes providing value to multiple modules.  These can include base classes, utilities, and configuration.
